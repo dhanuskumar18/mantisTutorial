@@ -29,35 +29,19 @@ console.log(pathname);
   let breadcrumbTitle = '';
   let breadcrumbHeading = '';
   switch (pathname) {
-    case '/apps/profiles/account/personal':
-      breadcrumbTitle = 'Personal';
-      breadcrumbHeading = 'Personal';
+    case '/student-details/active':
+      breadcrumbTitle = 'Active';
+      breadcrumbHeading = 'Active';
       selectedTab = 1;
       break;
-    case '/apps/profiles/account/my-account':
-      breadcrumbTitle = 'My Account';
-      breadcrumbHeading = 'My Account';
+    case '/student-details/in-active':
+      breadcrumbTitle = 'In active';
+      breadcrumbHeading = 'In active';
       selectedTab = 2;
       break;
-    case '/apps/profiles/account/password':
-      breadcrumbTitle = 'Change Password';
-      breadcrumbHeading = 'Change Password';
-      selectedTab = 3;
-      break;
-    case '/apps/profiles/account/role':
-      breadcrumbTitle = 'Role';
-      breadcrumbHeading = 'Accountant';
-      selectedTab = 4;
-      break;
-    case '/apps/profiles/account/settings':
-      breadcrumbTitle = 'Settings';
-      breadcrumbHeading = 'Account Settings';
-      selectedTab = 5;
-      break;
-    case '/apps/profiles/account/basic':
     default:
-      breadcrumbTitle = 'Basic';
-      breadcrumbHeading = 'Basic Account';
+      breadcrumbTitle = 'All';
+      breadcrumbHeading = 'All';
       selectedTab = 0;
   }
 
@@ -88,24 +72,15 @@ console.log(pathname);
       <MainCard border={false} boxShadow>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
           <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="account profile tab">
-            <Tab label="Profile" component={Link} to="/apps/profiles/account/basic" icon={<UserOutlined />} iconPosition="start" />
-            <Tab label="Personal" component={Link} to="/apps/profiles/account/personal" icon={<FileTextOutlined />} iconPosition="start" />
+            <Tab label="All" component={Link} to="/student-details/all" icon={<UserOutlined />} iconPosition="start" />
+            <Tab label="Active" component={Link} to="/student-details/active" icon={<FileTextOutlined />} iconPosition="start" />
             <Tab
-              label="My Account"
+              label="In Active"
               component={Link}
-              to="/apps/profiles/account/my-account"
+              to="/student-details/in-active"
               icon={<ContainerOutlined />}
               iconPosition="start"
             />
-            <Tab
-              label="Change Password"
-              component={Link}
-              to="/apps/profiles/account/password"
-              icon={<LockOutlined />}
-              iconPosition="start"
-            />
-            <Tab label="Role" component={Link} to="/apps/profiles/account/role" icon={<TeamOutlined />} iconPosition="start" />
-            <Tab label="Settings" component={Link} to="/apps/profiles/account/settings" icon={<SettingOutlined />} iconPosition="start" />
           </Tabs>
         </Box>
         <Box sx={{ mt: 2.5 }}>

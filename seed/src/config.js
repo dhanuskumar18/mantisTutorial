@@ -37,6 +37,13 @@ export let ThemeDirection;
   ThemeDirection['RTL'] = 'rtl';
 })(ThemeDirection || (ThemeDirection = {}));
 
+export let Gender;
+
+(function (Gender) {
+  Gender['MALE'] = 'Male';
+  Gender['FEMALE'] = 'Female';
+})(Gender || (Gender = {}));
+
 export let NavActionType;
 
 (function (NavActionType) {

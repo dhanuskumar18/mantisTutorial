@@ -27,9 +27,12 @@ export default function Navigation() {
   const [selectedItems, setSelectedItems] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(0);
   const [menuItems, setMenuItems] = useState({ items: [] });
+console.log(menuItem);
 
   useLayoutEffect(() => {
-    setMenuItems(menuItem);
+    console.log(menuItem);
+    
+    setMenuItems(menuItem());
     // eslint-disable-next-line
   }, [menuItem]);
 

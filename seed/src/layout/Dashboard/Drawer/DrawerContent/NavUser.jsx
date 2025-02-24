@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
@@ -11,7 +11,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import Loader from 'components/Loader';
 // project import
 import Avatar from 'components/@extended/Avatar';
 import useAuth from 'hooks/useAuth';
@@ -47,6 +47,19 @@ export default function NavUser() {
   const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
   const { logout, user } = useAuth();
+  const [student,setStudent]=useState(null);
+  console.log(student);
+  useEffect(()=>{
+      if (Array.isArray(user)) {
+        setStudent(user[0])
+        console.log("User is an array");
+      } else if (typeof user === "object" && user !== null) {
+        setStudent(user)
+        console.log("User is an object");
+      } else {
+        console.log("User is neither an object nor an array");
+      }
+    },[])
   const handleLogout = async () => {
     try {
       await logout();
@@ -69,7 +82,9 @@ export default function NavUser() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+if (!student) {
+    return <Loader />
+  }
   return (
     <Box sx={{ p: 1.25, px: !drawerOpen ? 1.25 : 3, borderTop: '2px solid', borderTopColor: 'divider' }}>
       <List disablePadding>
@@ -93,9 +108,9 @@ export default function NavUser() {
           sx={{ '& .MuiListItemSecondaryAction-root': { right: !drawerOpen ? -20 : -16 } }}
         >
           <ListItemAvatar>
-            <Avatar alt="Avatar" src={avatar1} sx={{ ...(drawerOpen && { width: 46, height: 46 }) }} />
+            <Avatar alt="Avatar" src={`http://localhost:8000${student.image_url}`} sx={{ ...(drawerOpen && { width: 46, height: 46 }) }} />
           </ListItemAvatar>
-          <ListItemText primary={user?.name} secondary="UI/UX Designer" />
+          <ListItemText primary={student?.name} secondary="UI/UX Designer" />
         </ListItem>
       </List>
       <Menu

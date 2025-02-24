@@ -8,11 +8,11 @@ import SimpleLayout from 'layout/Simple';
 import { SimpleLayoutType } from 'config';
 // import UserTabPersonal from '../sections/apps/profiles/user/TabPersonal';
 const UserProfile = Loadable(lazy(() => import('../pages/apps/profiles/user')));
+const StudentDetails = Loadable(lazy(() => import('../pages/extra-pages/StudentDetails')));
 const UserTabPersonal=Loadable(lazy(() => import('../sections/apps/profiles/user/TabPersonal')));
 const UserTabPayment = Loadable(lazy(() => import('../sections/apps/profiles/user/TabPayment')));
 const UserTabPassword = Loadable(lazy(() => import('../sections/apps/profiles/user/TabPassword')));
 const UserTabSettings = Loadable(lazy(() => import('../sections/apps/profiles/user/TabSettings')));
-
 const AccountProfile = Loadable(lazy(() => import('../pages/apps/profiles/account')));
 const AccountTabProfile = Loadable(lazy(() => import('../sections/apps/profiles/account/TabProfile')));
 const AccountTabPersonal = Loadable(lazy(() => import('../sections/apps/profiles/account/TabPersonal')));
@@ -24,6 +24,10 @@ const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500')));
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
+const All = Loadable(lazy(() => import('../sections/student-details/All')));
+const Active = Loadable(lazy(() => import('../sections/student-details/Active')));
+const Inactive = Loadable(lazy(() => import('../sections/student-details/Inactive')));
+const StudentEdit = Loadable(lazy(() => import('../sections/student-details/StudentEdit')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 // render - sample page
@@ -41,6 +45,28 @@ const MainRoutes = {
         {
           path: 'sample-page',
           element: <SamplePage />
+        },
+        {
+          path: 'student-details',
+          element: <StudentDetails />,
+          children: [
+            {
+              path: 'all',
+              element: <All />
+            },
+            {
+              path: 'active',
+              element: <Active />
+            },
+            {
+              path: 'in-active',
+              element: <Inactive/>
+            },
+            {
+              path: ':id',
+              element: <StudentEdit/>
+            }
+          ]
         },
         {
           path: 'apps',

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useRef, useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router';
 
 // material-ui
@@ -27,7 +27,7 @@ import IconButton from 'components/@extended/IconButton';
 
 import { ThemeMode } from 'config';
 import useAuth from 'hooks/useAuth';
-
+import Loader from 'components/Loader';
 // assets
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import SettingOutlined from '@ant-design/icons/SettingOutlined';
@@ -55,8 +55,23 @@ function a11yProps(index) {
 export default function Profile() {
   const theme = useTheme();
   const navigate = useNavigate();
+const role=localStorage.getItem("role")
+console.log(role);
 
   const { logout, user } = useAuth();
+   const [student,setStudent]=useState(null);
+    console.log(student);
+    useEffect(()=>{
+        if (Array.isArray(user)) {
+          setStudent(user[0])
+          console.log("User is an array");
+        } else if (typeof user === "object" && user !== null) {
+          setStudent(user)
+          console.log("User is an object");
+        } else {
+          console.log("User is neither an object nor an array");
+        }
+      },[user])
   const handleLogout = async () => {
     try {
       await logout();
@@ -90,7 +105,9 @@ export default function Profile() {
   };
 
   const iconBackColorOpen = theme.palette.mode === ThemeMode.DARK ? 'background.default' : 'grey.100';
-
+if (!student) {
+    return <Loader />
+  }
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <ButtonBase
@@ -108,9 +125,9 @@ export default function Profile() {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={1.25} alignItems="center" sx={{ p: 0.5 }}>
-          <Avatar alt="profile user" src={avatar1} size="sm" />
+          <Avatar alt="profile user" src={`http://localhost:8000${student.image_url}`} size="sm" />
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-            {user?.name}
+            {student?.name}
           </Typography>
         </Stack>
       </ButtonBase>
@@ -141,9 +158,9 @@ export default function Profile() {
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
                         <Stack direction="row" spacing={1.25} alignItems="center">
-                          <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                          <Avatar alt="profile user" src={`http://localhost:8000${student.image_url}`} sx={{ width: 32, height: 32 }} />
                           <Stack>
-                            <Typography variant="h6">{user?.name}</Typography>
+                            <Typography variant="h6">{student?.name}</Typography>
                             <Typography variant="body2" color="text.secondary">
                               UI/UX Designer
                             </Typography>

@@ -56,7 +56,7 @@ export default function ProfileTabs({ focusInput }) {
     } else {
       console.log("User is neither an object nor an array");
     }
-  },[])
+  },[user])
   useEffect(() => {
     if (selectedImage) {
       setAvatar(URL.createObjectURL(selectedImage));

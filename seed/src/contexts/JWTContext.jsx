@@ -35,15 +35,18 @@ const verifyToken = (serviceToken) => {
   return decoded.exp > Date.now() / 1000;
 };
 
-const setSession = (serviceToken, checked) => {
+const setSession = (serviceToken, checked,role) => {
   if (serviceToken && checked) {
     localStorage.setItem('serviceToken', serviceToken);
+    localStorage.setItem('role', role);
     axios.defaults.headers.common.Authorization = `Bearer ${serviceToken}`;
   } else if (serviceToken) {
     sessionStorage.setItem('serviceToken', serviceToken);
+    sessionStorage.setItem('role', role);
     axios.defaults.headers.common.Authorization = `Bearer ${serviceToken}`;
   } else {
     localStorage.removeItem('serviceToken');
+    localStorage.removeItem('role');
     delete axios.defaults.headers.common.Authorization;
   }
 };
@@ -58,16 +61,18 @@ export const JWTProvider = ({ children }) => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
+        const role = window.localStorage.getItem('role');
         const serviceToken2 = window.sessionStorage.getItem('serviceToken');
+        const role1 = window.sessionStorage.getItem('role');
         if ((serviceToken && verifyToken(serviceToken)) || (serviceToken2 && verifyToken(serviceToken2))) {
           console.log('hello');
 if(serviceToken)
 {
 
-  setSession(serviceToken,true);
+  setSession(serviceToken,true,role);
 }
 else {
-  setSession(serviceToken2,false);
+  setSession(serviceToken2,false,role1);
 
 }
           const config = {
@@ -105,8 +110,11 @@ else {
 
   const login = async (email, otp, checked) => {
     const response = await axios.post('/api/auth/verify-otp', { email, otp });
-    const { serviceToken, user } = response.data;
-    setSession(serviceToken, checked);
+    console.log(response.data);
+    const { serviceToken, user,role } = response.data;
+    console.log(role);
+    
+    setSession(serviceToken, checked,role);
     dispatch({
       type: LOGIN,
       payload: {

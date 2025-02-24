@@ -34,14 +34,16 @@ exports.verifyOtp = async (req, res) => {
             const payload={email:"hackermdk@gmail.com"}
            const serviceToken=  jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
            console.log(serviceToken);
-           
-            res.json({ success: true,role:"admin",serviceToken });
+           const user={name:"admin",
+            email:email
+           }
+            res.json({ success: true,role:"admin",serviceToken ,user});
         }
          else if (result.success) {
             const serviceToken = authService.generateToken(result.student);
             console.log(serviceToken);
             
-            res.json({ success: true,user:result.parent, serviceToken });
+            res.json({ success: true,user:result.parent, serviceToken ,role:"student"});
         } else {
             res.json(result);
         }

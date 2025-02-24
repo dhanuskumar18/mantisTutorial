@@ -178,9 +178,17 @@ const getDetail = async (req, res) => {
     }
     const decoded = jwt.verify(token, JWT_SECRET);
     console.log(decoded);
-    const result = await studentService.getStudentDetails(decoded.id);
-    console.log(result);
-    return res.status(201).json(result);
+    if(decoded.id)
+    {
+      const result = await studentService.getStudentDetails(decoded.id);
+      console.log(result);
+      return res.status(201).json(result);
+    }
+    const user={
+name:"admin",
+email:decoded.email
+    }
+    return res.status(201).json( {success: true, message: "Admin access granted",user,role:"admin"});
   } catch (error) {
     console.error("JWT Verification Error:", error);
     res.status(401).json({ message: "Invalid or expired token" });
